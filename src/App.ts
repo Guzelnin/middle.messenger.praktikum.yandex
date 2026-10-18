@@ -1,6 +1,7 @@
 import Handlebars from 'handlebars'
 import AuthPage from './pages/AuthPage/AuthPage.hbs?raw'
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage.hbs?raw'
+import ServerErrorPage from './pages/ServerErrorPage/ServerErrorPage.hbs?raw'
 import ChatsPage from './pages/ChatsPage/ChatsPage.hbs?raw'
 import ProfilePage from './pages/ProfilePage/ProfilePage.hbs?raw'
 import EditProfilePage from './pages/EditProfilePage/EditProfilePage.hbs?raw'
@@ -13,6 +14,7 @@ import {
   PROFILE_PAGE_PATH,
   EDIT_PROFILE_PAGE_PATH,
   EDIT_PASSWORD_PAGE_PATH,
+  SERVER_ERROR_PAGE_PATH,
   signInFormFields,
   signUnFormFields,
 } from './constants'
@@ -87,9 +89,37 @@ export default class App {
           : path === EDIT_PASSWORD_PAGE_PATH
             ? EditPasswordPage
             : ProfilePage
-      this.renderTemplate(pageTemplate)
+      this.renderTemplate(pageTemplate, {
+        user: {
+          name: 'Guzel',
+          initials: 'GM',
+          email: 'guzel@example.com',
+          login: 'guzel',
+          firstName: 'Guzel',
+          lastName: 'M',
+          phone: '+7 900 000-00-00',
+        },
+      })
     } else if (path === CHATS_PAGE_PATH) {
-      this.renderTemplate(ChatsPage)
+      const mockChat = {
+        title: 'Gennadiy',
+        avatarInitials: 'G',
+        last_message: {
+          time: '12:45',
+          content: 'Аппрувнул твой пр',
+        },
+      }
+
+      this.renderTemplate(ChatsPage, {
+        chats: [mockChat],
+        activeChat: mockChat,
+        messages: [
+          { content: 'Дарова', isOwn: true, time: '12:20' },
+          { content: 'Аппрувнул твой пр', isOwn: false, time: '12:45' },
+        ],
+      })
+    } else if (path === SERVER_ERROR_PAGE_PATH) {
+      this.renderTemplate(ServerErrorPage)
     } else {
       this.renderTemplate(NotFoundPage)
     }

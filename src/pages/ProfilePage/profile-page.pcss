@@ -5,12 +5,13 @@
   background-color: var(--color-background);
 }
 
-.profile-page__back-button {
+.profile-page__back-link {
+  display: inline-block;
   color: var(--color-text-secondary);
-  background-color: var(--color-surface);
+  text-decoration: none;
 }
 
-.profile-page__back-button:hover {
+.profile-page__back-link:hover {
   color: var(--color-primary);
 }
 
@@ -81,6 +82,7 @@
   width: 100%;
   margin-top: 24px;
   flex-direction: column;
+  align-items: center;
   gap: 8px;
 }
 
@@ -114,18 +116,18 @@
   display: flex;
   margin-top: 8px;
   flex-direction: column;
+  align-items: center;
   gap: 8px;
 }
 
-.profile-page__form-actions .button {
-  width: 100%;
+.profile-page__form-actions > .button {
+  align-self: center;
   text-align: center;
 }
 
 .profile-page__action {
-  width: 100%;
-  background-color: var(--color-secondary);
-  color: var(--color-text);
+  text-align: center;
+  color: var(--color-primary);
   text-decoration: none;
 }
 

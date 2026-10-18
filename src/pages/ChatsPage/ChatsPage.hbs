@@ -1,26 +1,49 @@
-<div class="chats-page">
-  <div class="sidebar">
-    <div class="sidebar__profile">
-      <button class="button sidebar__profile-button">Профиль</button>
-    </div>
+<main class="home-page">
+  <nav class="page-index" aria-label="Страницы приложения">
+    <h1 class="page-index__title">Страницы проекта</h1>
+    <ul class="page-index__list">
+      <li class="page-index__item"><a href="/">Чаты</a></li>
+      <li class="page-index__item"><a href="/sign-in">Вход</a></li>
+      <li class="page-index__item"><a href="/sign-up">Регистрация</a></li>
+      <li class="page-index__item"><a href="/profile">Профиль</a></li>
+      <li class="page-index__item"><a href="/profile/edit">Изменение данных</a></li>
+      <li class="page-index__item"><a href="/profile/password">Изменение пароля</a></li>
+      <li class="page-index__item"><a href="/404">Ошибка 404</a></li>
+      <li class="page-index__item"><a href="/500">Ошибка 500</a></li>
+    </ul>
+  </nav>
 
-    {{> ChatSearch}}
+  <div class="chats-page">
+    <div class="sidebar">
+      <div class="sidebar__profile">
+        <a class="link sidebar__profile-link" href="/profile">Профиль</a>
+      </div>
 
-    {{> Divider}}
-
-    <ul class="chats">
-      {{#each chats}}
-      {{> ChatPreview this}}
+      {{> ChatSearch}}
 
       {{> Divider}}
-      {{/each}}
-    </ul>
-  </div>
-  <div class="chat">
-    {{> ChatHeader}}
 
-    <div class="chat__messages"></div>
+      <ul class="chats">
+        {{#each chats}}
+        {{> ChatPreview this}}
+        {{/each}}
+      </ul>
+    </div>
+    <div class="chat {{#unless activeChat}}chat--empty{{/unless}}">
+      {{#if activeChat}}
+        {{> ChatHeader activeChat}}
 
-    {{> MessageForm}}
+        <section class="chat__messages" aria-label="Сообщения">
+          <div class="chat__date">Сегодня</div>
+          {{#each messages}}
+          {{> Message this}}
+          {{/each}}
+        </section>
+
+        {{> MessageForm}}
+      {{else}}
+        <p class="chat__empty-state">Выберите чат, чтобы отправить сообщение</p>
+      {{/if}}
+    </div>
   </div>
-</div>
+</main>

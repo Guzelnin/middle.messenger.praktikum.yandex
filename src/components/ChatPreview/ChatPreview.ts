@@ -1,6 +1,6 @@
 export default `
   <li class="chat-preview">
-    <img class="chat-preview__avatar" src="{{avatar}}" />
+    <span class="chat-preview__avatar" aria-hidden="true">{{avatarInitials}}</span>
     <div class="chat-preview__content">
       <div class="chat-preview__header">
         <span class="chat-preview__name">{{title}}</span>
