@@ -1,0 +1,35 @@
+<main class="profile-page">
+  <button class="button profile-page__back-button" type="button">← Назад в профиль</button>
+
+  <section class="profile-page__card" aria-labelledby="edit-profile-title">
+    <h1 class="profile-page__form-title" id="edit-profile-title">Изменить данные</h1>
+
+    <form class="profile-page__form">
+      <label class="profile-page__field" for="profile-email">
+        <span class="profile-page__field-label">Почта</span>
+        <input class="input" id="profile-email" name="email" type="email" value="{{user.email}}" />
+      </label>
+      <label class="profile-page__field" for="profile-login">
+        <span class="profile-page__field-label">Логин</span>
+        <input class="input" id="profile-login" name="login" type="text" value="{{user.login}}" />
+      </label>
+      <label class="profile-page__field" for="profile-first-name">
+        <span class="profile-page__field-label">Имя</span>
+        <input class="input" id="profile-first-name" name="firstName" type="text" value="{{user.firstName}}" />
+      </label>
+      <label class="profile-page__field" for="profile-last-name">
+        <span class="profile-page__field-label">Фамилия</span>
+        <input class="input" id="profile-last-name" name="lastName" type="text" value="{{user.lastName}}" />
+      </label>
+      <label class="profile-page__field" for="profile-phone">
+        <span class="profile-page__field-label">Телефон</span>
+        <input class="input" id="profile-phone" name="phone" type="tel" value="{{user.phone}}" />
+      </label>
+
+      <div class="profile-page__form-actions">
+        <button class="button button--primary" type="button">Сохранить</button>
+        <button class="button button--secondary" type="button">Отмена</button>
+      </div>
+    </form>
+  </section>
+</main>

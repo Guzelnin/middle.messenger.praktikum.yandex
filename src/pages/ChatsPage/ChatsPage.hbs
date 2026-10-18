@@ -1,0 +1,26 @@
+<div class="chats-page">
+  <div class="sidebar">
+    <div class="sidebar__profile">
+      <button class="button sidebar__profile-button">Профиль</button>
+    </div>
+
+    {{> ChatSearch}}
+
+    {{> Divider}}
+
+    <ul class="chats">
+      {{#each chats}}
+      {{> ChatPreview this}}
+
+      {{> Divider}}
+      {{/each}}
+    </ul>
+  </div>
+  <div class="chat">
+    {{> ChatHeader}}
+
+    <div class="chat__messages"></div>
+
+    {{> MessageForm}}
+  </div>
+</div>
