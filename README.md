@@ -2,6 +2,8 @@
 
 Учебный проект мессенджера.
 
+Демо: [dynamic-clafoutis-808e9b.netlify.app](https://dynamic-clafoutis-808e9b.netlify.app/)
+
 ## Запуск локально
 
 Нужны установленные Node.js и npm.
