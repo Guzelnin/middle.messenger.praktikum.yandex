@@ -9,3 +9,5 @@ export {
 } from './paths'
 export { signInFormFields } from './sign-in-form-fields'
 export { signUnFormFields } from './sign-up-form-fields'
+export { editProfileFormFields } from './edit-profile-form-fields'
+export { editPasswordFormFields } from './edit-password-form-fields'

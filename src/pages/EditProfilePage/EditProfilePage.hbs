@@ -5,26 +5,12 @@
     <h1 class="profile-page__form-title" id="edit-profile-title">Изменить данные</h1>
 
     <form class="profile-page__form">
-      <label class="profile-page__field" for="profile-email">
-        <span class="profile-page__field-label">Почта</span>
-        <input class="input" id="profile-email" name="email" type="email" value="{{user.email}}" />
+      {{#each formFields}}
+      <label class="profile-page__field" for="{{id}}">
+        <span class="profile-page__field-label">{{label}}</span>
+        {{> Input id=id name=name type=type value=value}}
       </label>
-      <label class="profile-page__field" for="profile-login">
-        <span class="profile-page__field-label">Логин</span>
-        <input class="input" id="profile-login" name="login" type="text" value="{{user.login}}" />
-      </label>
-      <label class="profile-page__field" for="profile-first-name">
-        <span class="profile-page__field-label">Имя</span>
-        <input class="input" id="profile-first-name" name="first_name" type="text" value="{{user.firstName}}" />
-      </label>
-      <label class="profile-page__field" for="profile-last-name">
-        <span class="profile-page__field-label">Фамилия</span>
-        <input class="input" id="profile-last-name" name="second_name" type="text" value="{{user.lastName}}" />
-      </label>
-      <label class="profile-page__field" for="profile-phone">
-        <span class="profile-page__field-label">Телефон</span>
-        <input class="input" id="profile-phone" name="phone" type="tel" value="{{user.phone}}" />
-      </label>
+      {{/each}}
 
       <div class="profile-page__form-actions">
         <button class="button button--primary" type="button">Сохранить</button>

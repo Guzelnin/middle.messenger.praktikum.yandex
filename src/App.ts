@@ -17,6 +17,8 @@ import {
   SERVER_ERROR_PAGE_PATH,
   signInFormFields,
   signUnFormFields,
+  editProfileFormFields,
+  editPasswordFormFields,
 } from './constants'
 
 import Input from './components/Input/Input'
@@ -78,27 +80,31 @@ export default class App {
           : 'Зарегистрироваться',
         redirectButtonLabel: isSignInPage ? 'Нет аккаунта?' : 'Войти',
       })
-    } else if (
-      path === PROFILE_PAGE_PATH ||
-      path === EDIT_PROFILE_PAGE_PATH ||
-      path === EDIT_PASSWORD_PAGE_PATH
-    ) {
-      const pageTemplate =
-        path === EDIT_PROFILE_PAGE_PATH
-          ? EditProfilePage
-          : path === EDIT_PASSWORD_PAGE_PATH
-            ? EditPasswordPage
-            : ProfilePage
-      this.renderTemplate(pageTemplate, {
-        user: {
-          name: 'Guzel',
-          initials: 'GM',
-          email: 'guzel@example.com',
-          login: 'guzel',
-          firstName: 'Guzel',
-          lastName: 'M',
-          phone: '+7 900 000-00-00',
-        },
+    } else if (path === PROFILE_PAGE_PATH) {
+      const user = {
+        name: 'Guzel',
+        initials: 'GM',
+        email: 'guzel@example.com',
+        login: 'guzel',
+        firstName: 'Guzel',
+        lastName: 'M',
+        phone: '+7 900 000-00-00',
+      }
+      this.renderTemplate(ProfilePage, { user })
+    } else if (path === EDIT_PROFILE_PAGE_PATH) {
+      const user = {
+        email: 'guzel@example.com',
+        login: 'guzel',
+        firstName: 'Guzel',
+        lastName: 'M',
+        phone: '+7 900 000-00-00',
+      }
+      this.renderTemplate(EditProfilePage, {
+        formFields: editProfileFormFields(user),
+      })
+    } else if (path === EDIT_PASSWORD_PAGE_PATH) {
+      this.renderTemplate(EditPasswordPage, {
+        formFields: editPasswordFormFields,
       })
     } else if (path === CHATS_PAGE_PATH) {
       const mockChat = {
