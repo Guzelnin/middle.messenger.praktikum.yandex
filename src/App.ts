@@ -102,11 +102,11 @@ export default class App {
       })
     } else if (path === CHATS_PAGE_PATH) {
       const mockChat = {
-        title: 'Gennadiy',
-        avatarInitials: 'G',
+        title: 'Sasha',
+        avatarInitials: 'S',
         last_message: {
           time: '12:45',
-          content: 'Аппрувнул твой пр',
+          content: 'Привет',
         },
       }
 
@@ -114,8 +114,8 @@ export default class App {
         chats: [mockChat],
         activeChat: mockChat,
         messages: [
-          { content: 'Дарова', isOwn: true, time: '12:20' },
-          { content: 'Аппрувнул твой пр', isOwn: false, time: '12:45' },
+          { content: 'Привет', isOwn: true, time: '12:20' },
+          { content: 'Привет', isOwn: false, time: '12:45' },
         ],
       })
     } else if (path === SERVER_ERROR_PAGE_PATH) {
