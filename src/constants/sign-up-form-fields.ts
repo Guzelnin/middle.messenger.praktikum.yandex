@@ -38,7 +38,7 @@ export const signUnFormFields: AuthFormFields[] = [
     required: true,
   },
   {
-    name: 'passwordCheck',
+    name: 'password_check',
     label: 'Пароль (еще раз)',
     type: 'password',
     required: true,
