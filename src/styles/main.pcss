@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap');
+
+:root {
+  --color-primary: #cd66d8;
+  --color-primary-light: rgb(205 102 216 / 20%);
+  --color-secondary: #f3e1f4;
+  --color-background: #f9f7fa;
+  --color-surface: #fff;
+  --color-text: #2d2630;
+  --color-text-secondary: #7a707c;
+  --color-border: #e5dde7;
+  --color-error: #d85f6f;
+}
+
+button,
+input,
+textarea {
+  font-family: Manrope, sans-serif;
+}
+
+html,
+body {
+  font-family: Manrope, sans-serif;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+.button--primary {
+  color: white;
+  background-color: var(--color-primary);
+}
+
+.button--secondary {
+  background-color: var(--color-secondary);
+}
+
+.button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease,
+    box-shadow 0.2s ease;
+}
+
+.button:hover {
+  box-shadow: 0 4px 12px rgb(205 102 216 / 25%);
+}
+
+.button:active {
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.link {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}

@@ -1,0 +1,7 @@
+export const CHATS_PAGE_PATH = '/'
+export const SIGN_IN_PAGE_PATH = '/sign-in'
+export const SIGN_UP_PAGE_PATH = '/sign-up'
+export const PROFILE_PAGE_PATH = '/profile'
+export const EDIT_PROFILE_PAGE_PATH = '/profile/edit'
+export const EDIT_PASSWORD_PAGE_PATH = '/profile/password'
+export const SERVER_ERROR_PAGE_PATH = '/500'

@@ -1,0 +1,26 @@
+<div class="auth-page">
+  <form class="auth-page__form" id="my-form">
+    <h1 class="auth-page__title">{{formTitle}}</h1>
+
+    <div class="auth-page__form-fields">
+      {{#each formFields}}
+      <div class="auth-page__form-field">
+        {{> Input id=name name=name type=type placeholder=label required=required}}
+      </div>
+      {{/each}}
+    </div>
+
+    <div class="auth-page__buttons">
+      <button class="button button--primary" type="submit">
+        {{#with submitButtonLabel}}
+        {{ this }}
+        {{/with}}
+      </button>
+      <button class="button button--secondary" type="button">
+        {{#with redirectButtonLabel}}
+        {{ this }}
+        {{/with}}
+      </button>
+    </div>
+  </form>
+</div>

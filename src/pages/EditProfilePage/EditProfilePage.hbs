@@ -1,0 +1,21 @@
+<main class="profile-page">
+  <a class="link profile-page__back-link" href="/profile">← Назад в профиль</a>
+
+  <section class="profile-page__card" aria-labelledby="edit-profile-title">
+    <h1 class="profile-page__form-title" id="edit-profile-title">Изменить данные</h1>
+
+    <form class="profile-page__form">
+      {{#each formFields}}
+      <label class="profile-page__field" for="{{id}}">
+        <span class="profile-page__field-label">{{label}}</span>
+        {{> Input id=id name=name type=type value=value}}
+      </label>
+      {{/each}}
+
+      <div class="profile-page__form-actions">
+        <button class="button button--primary" type="button">Сохранить</button>
+        <a class="link" href="/profile">Отмена</a>
+      </div>
+    </form>
+  </section>
+</main>
