@@ -1,7 +1,7 @@
 import './styles/index.pcss'
-import App from './App'
+import AppController from './controllers/AppController'
 
 document.addEventListener('DOMContentLoaded', () => {
-  const app = new App()
-  app.render()
+  const appController = new AppController()
+  appController.render()
 })

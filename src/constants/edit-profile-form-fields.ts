@@ -13,6 +13,7 @@ export const editProfileFormFields = (user: {
     label: 'Почта',
     type: 'email',
     value: user.email,
+    required: true,
   },
   {
     id: 'login',
@@ -20,6 +21,7 @@ export const editProfileFormFields = (user: {
     label: 'Логин',
     type: 'text',
     value: user.login,
+    required: true,
   },
   {
     id: 'first-name',
@@ -27,6 +29,7 @@ export const editProfileFormFields = (user: {
     label: 'Имя',
     type: 'text',
     value: user.firstName,
+    required: true,
   },
   {
     id: 'second-name',
@@ -34,6 +37,7 @@ export const editProfileFormFields = (user: {
     label: 'Фамилия',
     type: 'text',
     value: user.lastName,
+    required: true,
   },
   {
     id: 'phone',
@@ -41,5 +45,6 @@ export const editProfileFormFields = (user: {
     label: 'Телефон',
     type: 'tel',
     value: user.phone,
+    required: true,
   },
 ]
