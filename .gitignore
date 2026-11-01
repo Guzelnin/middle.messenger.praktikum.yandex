@@ -3,3 +3,4 @@ dist
 *.local
 .vscode
 .DS_Store
+.husky/_

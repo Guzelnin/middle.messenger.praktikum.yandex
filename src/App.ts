@@ -6,6 +6,7 @@ import ChatsPage from './pages/ChatsPage/ChatsPage.hbs?raw'
 import ProfilePage from './pages/ProfilePage/ProfilePage.hbs?raw'
 import EditProfilePage from './pages/EditProfilePage/EditProfilePage.hbs?raw'
 import EditPasswordPage from './pages/EditPasswordPage/EditPasswordPage.hbs?raw'
+import { registerComponent } from './utils'
 
 import {
   SIGN_IN_PAGE_PATH,
@@ -30,14 +31,14 @@ import ChatHeader from './components/ChatHeader/ChatHeader'
 import MessageForm from './components/MessageForm/MessageForm'
 import Message from './components/Message/Message'
 
-Handlebars.registerPartial('Input', Input)
-Handlebars.registerPartial('Label', Label)
-Handlebars.registerPartial('Divider', Divider)
-Handlebars.registerPartial('ChatSearch', ChatSearch)
-Handlebars.registerPartial('ChatPreview', ChatPreview)
-Handlebars.registerPartial('ChatHeader', ChatHeader)
-Handlebars.registerPartial('MessageForm', MessageForm)
-Handlebars.registerPartial('Message', Message)
+registerComponent(Input)
+registerComponent(Label)
+registerComponent(Divider)
+registerComponent(ChatSearch)
+registerComponent(ChatPreview)
+registerComponent(ChatHeader)
+registerComponent(MessageForm)
+registerComponent(Message)
 
 interface AppState {
   appElement: HTMLElement | null

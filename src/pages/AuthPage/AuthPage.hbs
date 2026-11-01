@@ -5,21 +5,18 @@
     <div class="auth-page__form-fields">
       {{#each formFields}}
       <div class="auth-page__form-field">
-        {{> Input id=name name=name type=type placeholder=label required=required}}
+        {{{Input id=name name=name type=type placeholder=label
+        required=required}}}
       </div>
       {{/each}}
     </div>
 
     <div class="auth-page__buttons">
       <button class="button button--primary" type="submit">
-        {{#with submitButtonLabel}}
-        {{ this }}
-        {{/with}}
+        {{#with submitButtonLabel}} {{ this }} {{/with}}
       </button>
       <button class="button button--secondary" type="button">
-        {{#with redirectButtonLabel}}
-        {{ this }}
-        {{/with}}
+        {{#with redirectButtonLabel}} {{ this }} {{/with}}
       </button>
     </div>
   </form>
