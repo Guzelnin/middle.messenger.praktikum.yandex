@@ -1,6 +1,17 @@
-import Block from '../Block/Block'
+import Block, { type BlockOwnProps } from '../Block/Block'
 
-export default class ChatPreview extends Block {
+interface ChatPreviewProps extends BlockOwnProps {
+  chat: {
+    avatarInitials: string
+    title: string
+    last_message: {
+      time: string
+      content: string
+    }
+  }
+}
+
+export default class ChatPreview extends Block<ChatPreviewProps> {
   static componentName = 'ChatPreview'
 
   protected template = `

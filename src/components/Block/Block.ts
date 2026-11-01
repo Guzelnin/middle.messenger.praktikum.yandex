@@ -1,6 +1,6 @@
 import Handlebars from 'handlebars'
 
-interface BlockOwnProps {
+export interface BlockOwnProps {
   __children?: Array<{
     component: Block<object>
     embed(node: DocumentFragment): void
@@ -96,9 +96,7 @@ export default abstract class Block<
 
   private compile(): Element | null {
     const html = Handlebars.compile(this.template)(this.props)
-    const templateElement = document.createElement('template')
-    templateElement.innerHTML = html
-    const fragment = templateElement.content
+    const fragment = document.createRange().createContextualFragment(html)
 
     if (this.props.__children) {
       this.children = this.props.__children.map((child) => child.component)
@@ -119,6 +117,6 @@ export default abstract class Block<
       defaultRefs,
     )
 
-    return templateElement.content.firstElementChild
+    return fragment.firstElementChild
   }
 }

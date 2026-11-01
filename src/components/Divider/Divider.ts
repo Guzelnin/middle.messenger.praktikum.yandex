@@ -1,6 +1,8 @@
-import Block from '../Block/Block'
+import Block, { type BlockOwnProps } from '../Block/Block'
 
-export default class Divider extends Block {
+type DividerProps = BlockOwnProps
+
+export default class Divider extends Block<DividerProps> {
   static componentName = 'Divider'
 
   protected template = `<hr class="divider">`

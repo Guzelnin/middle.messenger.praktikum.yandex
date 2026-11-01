@@ -10,12 +10,12 @@
       {{#each formFields}}
       <label class="profile-page__field" for="{{id}}">
         <span class="profile-page__field-label">{{label}}</span>
-        {{{Input id=id name=name type=type value=value}}}
+        {{{Input id=id name=name type=type value=value required=required}}}
       </label>
       {{/each}}
 
       <div class="profile-page__form-actions">
-        <button class="button button--primary" type="button">Сохранить</button>
+        <button class="button button--primary" type="submit">Сохранить</button>
         <a class="link" href="/profile">Отмена</a>
       </div>
     </form>

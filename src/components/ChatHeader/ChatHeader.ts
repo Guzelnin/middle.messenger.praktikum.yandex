@@ -1,6 +1,11 @@
-import Block from '../Block/Block'
+import Block, { type BlockOwnProps } from '../Block/Block'
 
-export default class ChatHeader extends Block {
+interface ChatHeaderProps extends BlockOwnProps {
+  title: string
+  avatarInitials: string
+}
+
+export default class ChatHeader extends Block<ChatHeaderProps> {
   static componentName = 'ChatHeader'
 
   protected template = `

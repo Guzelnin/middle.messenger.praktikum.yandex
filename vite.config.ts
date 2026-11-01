@@ -6,7 +6,7 @@ dotenv.config()
 export default defineConfig({
   server: {
     open: true,
-    port: Number(process.env.PORT) || 8000,
+    port: Number(process.env.PORT) || 3000,
     watch: {
       usePolling: true,
     },

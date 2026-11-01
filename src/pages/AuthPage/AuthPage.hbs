@@ -1,5 +1,5 @@
 <div class="auth-page">
-  <form class="auth-page__form" id="my-form">
+  <form class="auth-page__form" id="my-form" data-auth-mode="{{authMode}}">
     <h1 class="auth-page__title">{{formTitle}}</h1>
 
     <div class="auth-page__form-fields">
@@ -7,6 +7,7 @@
       <div class="auth-page__form-field">
         {{{Input id=name name=name type=type placeholder=label
         required=required}}}
+        <span class="form-field-error" aria-live="polite"></span>
       </div>
       {{/each}}
     </div>

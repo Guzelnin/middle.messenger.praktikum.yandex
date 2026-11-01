@@ -1,8 +1,10 @@
 import magnifyingGlassIcon from '../../assets/icons/magnifying-glass.svg'
 
-import Block from '../Block/Block'
+import Block, { type BlockOwnProps } from '../Block/Block'
 
-export default class ChatSearch extends Block {
+type ChatSearchProps = BlockOwnProps
+
+export default class ChatSearch extends Block<ChatSearchProps> {
   static componentName = 'ChatSearch'
 
   protected template = `
