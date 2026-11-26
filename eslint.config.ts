@@ -6,6 +6,9 @@ import html from 'eslint-plugin-html'
 
 export default defineConfig([
   {
+    ignores: ['**/assets/**'],
+  },
+  {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
     plugins: { js },
     extends: ['js/recommended'],

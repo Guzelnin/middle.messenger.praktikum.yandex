@@ -126,7 +126,7 @@
 
 .message--own {
   align-self: flex-end;
-  border-radius: 12px 12px 2px 12px;
+  border-radius: 12px 12px 2px;
   background-color: var(--color-secondary);
 }
 
@@ -141,16 +141,4 @@
   color: var(--color-text-secondary);
   font-size: 11px;
   text-align: right;
-}
-
-@media (max-width: 760px) {
-  .page-index {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .chats-page {
-    grid-template-columns: minmax(220px, 40%) 1fr;
-  }
 }

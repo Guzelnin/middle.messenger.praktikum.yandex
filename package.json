@@ -7,10 +7,28 @@
     "node": "^20.19.0"
   },
   "scripts": {
-    "start": "vite",
+    "start": "npm run build && vite",
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "prebuild": "tsc --noEmit",
+    "build": "npm run prebuild && vite build",
+    "preview": "vite preview",
+    "lint": "npm run prebuild && npx stylelint src/**/*.pcss && npx eslint \"src/**/*.{js,ts,mjs,html,hbs}\"",
+    "lint:fix": "eslint --fix .",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "prepare": "husky",
+    "check": "npm run build && npm run lint && npm run format"
+  },
+  "lint-staged": {
+    "*.{js,ts,mjs,html,hbs}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{pcss,css}": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": "prettier --write"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -19,7 +37,9 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-html": "^8.2.1",
     "globals": "^17.13.0",
+    "husky": "^9.1.7",
     "jiti": "^2.7.0",
+    "lint-staged": "^16.4.0",
     "postcss-import": "^16.2.0",
     "postcss-nesting": "^14.0.3",
     "prettier": "^3.9.9",
