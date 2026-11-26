@@ -1,14 +1,18 @@
 <main class="profile-page">
-  <a class="link profile-page__back-link" href="/">← К чатам</a>
+  <a class="link profile-page__back-link" href="/messenger">← К чатам</a>
 
   <section class="profile-page__card" aria-labelledby="profile-name">
-    <div
+    <button
       class="profile-page__avatar"
-      role="img"
-      aria-label="Аватар {{user.name}}"
+      type="button"
+      data-action="open-avatar-modal"
+      aria-label="Изменить аватар"
     >
-      {{user.initials}}
-    </div>
+      {{#if user.avatarUrl}}<img
+        src="{{user.avatarUrl}}"
+        alt=""
+      />{{else}}{{user.initials}}{{/if}}
+    </button>
     <h1 class="profile-page__name" id="profile-name">{{user.name}}</h1>
 
     <dl class="profile-page__details">
@@ -44,9 +48,49 @@
       <button
         class="button profile-page__action profile-page__action--danger"
         type="button"
+        data-action="logout"
       >
         Выйти
       </button>
     </div>
   </section>
+
+  <div class="avatar-modal" data-avatar-modal hidden>
+    <section
+      class="avatar-modal__dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="avatar-modal-title"
+    >
+      <button
+        class="avatar-modal__close"
+        type="button"
+        data-action="close-avatar-modal"
+        aria-label="Закрыть"
+      >
+        ×
+      </button>
+      <h2 class="avatar-modal__title" id="avatar-modal-title">
+        Загрузите файл
+      </h2>
+      <label class="avatar-modal__file-label">
+        <span data-avatar-filename>Выбрать файл на компьютере</span>
+        <input
+          class="avatar-modal__file-input"
+          type="file"
+          accept="image/*"
+          data-action="avatar-file"
+        />
+      </label>
+      <p class="avatar-modal__error" data-avatar-error role="alert" hidden></p>
+      <button
+        class="button button--primary avatar-modal__submit"
+        type="button"
+        data-action="upload-avatar"
+        disabled
+      >
+        Поменять
+      </button>
+    </section>
+  </div>
 </main>

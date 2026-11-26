@@ -6,6 +6,7 @@ export {
   EDIT_PROFILE_PAGE_PATH,
   EDIT_PASSWORD_PAGE_PATH,
   SERVER_ERROR_PAGE_PATH,
+  NOT_FOUND_PAGE_PATH,
 } from './paths'
 export { signInFormFields } from './sign-in-form-fields'
 export { signUnFormFields } from './sign-up-form-fields'
