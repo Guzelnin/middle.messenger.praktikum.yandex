@@ -28,7 +28,6 @@ export default class AppController {
   private readonly view: AppView
   private readonly appElement: HTMLElement
   private selectedChatId: number | null = null
-  private pendingChat: { login: string; chatId: number } | null = null
   private avatarFile: File | null = null
 
   private readonly formSelector = [
@@ -36,6 +35,8 @@ export default class AppController {
     'form.profile-page__form',
     'form.message-form',
     'form[data-form="add-user"]',
+    'form[data-form="create-chat"]',
+    'form[data-form="remove-user"]',
     'form[data-form="delete-chat"]',
   ].join(', ')
 
@@ -48,6 +49,7 @@ export default class AppController {
     ))
       return
     const form = field.form
+    if (form?.classList.contains('message-form')) return
     if (form?.matches(this.formSelector)) {
       validateField(field, form, form.dataset.authMode === 'sign-in')
     }
@@ -55,6 +57,13 @@ export default class AppController {
 
   private handleFieldInput = (event: Event) => {
     const field = event.target
+    if (field instanceof HTMLTextAreaElement && field.name === 'message') {
+      const submit = field.form?.querySelector<HTMLButtonElement>(
+        '.message-form__send',
+      )
+      if (submit) submit.disabled = field.value.trim().length === 0
+      return
+    }
     if (
       !(field instanceof HTMLInputElement) ||
       !['first_name', 'second_name'].includes(field.name) ||
@@ -81,6 +90,7 @@ export default class AppController {
     if (!(form instanceof HTMLFormElement) || !form.matches(this.formSelector))
       return
     event.preventDefault()
+    if (form.classList.contains('message-form')) return
     const fields = Array.from(
       form.querySelectorAll<FormField>(
         'input[name], textarea[name], select[name]',
@@ -96,8 +106,6 @@ export default class AppController {
         ?.focus()
       return
     }
-    if (form.classList.contains('message-form')) return
-
     const values = Object.fromEntries(new FormData(form).entries()) as Record<
       string,
       string
@@ -105,6 +113,16 @@ export default class AppController {
     try {
       if (form.dataset.form === 'add-user') {
         await this.addUser(values.login.trim())
+      } else if (form.dataset.form === 'create-chat') {
+        const created = await ChatAPI.create(values.title.trim())
+        this.selectedChatId = created.id
+        this.closeChatModal('create-chat')
+        await this.render(CHATS_PAGE_PATH)
+      } else if (form.dataset.form === 'remove-user') {
+        const chatId = Number(form.dataset.chatId)
+        await ChatAPI.removeUsers(chatId, [Number(values.userId)])
+        this.closeChatModal('remove-user')
+        await this.render(CHATS_PAGE_PATH)
       } else if (form.dataset.form === 'delete-chat') {
         const chatId = Number(form.dataset.chatId)
         await ChatAPI.delete(chatId)
@@ -144,6 +162,8 @@ export default class AppController {
     } catch (error) {
       if (
         form.dataset.form === 'add-user' ||
+        form.dataset.form === 'create-chat' ||
+        form.dataset.form === 'remove-user' ||
         form.dataset.form === 'delete-chat'
       ) {
         this.showModalError(
@@ -166,7 +186,12 @@ export default class AppController {
   private handleClick = async (event: MouseEvent) => {
     const target = event.target
     if (!(target instanceof Element)) return
-    for (const kind of ['add-user', 'delete-chat'] as const) {
+    for (const kind of [
+      'add-user',
+      'create-chat',
+      'remove-user',
+      'delete-chat',
+    ] as const) {
       const modal = this.appElement.querySelector<HTMLElement>(
         `[data-${kind}-modal]`,
       )
@@ -182,9 +207,17 @@ export default class AppController {
       this.closeAvatarModal()
       return
     }
+    if (!target.closest('.chat__menu-wrap')) this.closeChatMenus()
     const actionElement = target.closest<HTMLElement>('[data-action]')
     if (!actionElement) return
     const action = actionElement.dataset.action
+    if (
+      action === 'open-add-user' ||
+      action === 'open-remove-user' ||
+      action === 'open-delete-chat'
+    ) {
+      this.closeChatMenus()
+    }
     try {
       if (action === 'logout') {
         await AuthAPI.logout()
@@ -194,9 +227,16 @@ export default class AppController {
         this.selectedChatId = Number(actionElement.dataset.chatId)
         await this.render(CHATS_PAGE_PATH)
       } else if (action === 'open-add-user') {
+        this.selectedChatId = Number(actionElement.dataset.chatId)
         this.openChatModal('add-user')
+      } else if (action === 'open-create-chat') {
+        this.openChatModal('create-chat')
+      } else if (action === 'close-create-chat') {
+        this.closeChatModal('create-chat')
       } else if (action === 'close-add-user') {
         this.closeChatModal('add-user')
+      } else if (action === 'close-remove-user') {
+        this.closeChatModal('remove-user')
       } else if (action === 'close-delete-chat') {
         this.closeChatModal('delete-chat')
       } else if (action === 'toggle-chat-menu') {
@@ -214,6 +254,52 @@ export default class AppController {
           '[data-form="delete-chat"]',
         )
         if (form) form.dataset.chatId = String(chatId)
+      } else if (action === 'open-remove-user') {
+        const chatId = Number(actionElement.dataset.chatId)
+        this.selectedChatId = chatId
+        this.openChatModal('remove-user')
+        const form = this.appElement.querySelector<HTMLFormElement>(
+          '[data-form="remove-user"]',
+        )
+        if (form) form.dataset.chatId = String(chatId)
+        const submit = form?.querySelector<HTMLButtonElement>(
+          'button[type="submit"]',
+        )
+        if (submit) submit.disabled = true
+        try {
+          const [users, currentUser] = await Promise.all([
+            ChatAPI.users(chatId),
+            AuthAPI.current(),
+          ])
+          const participants = users.filter(
+            (user) => user.id !== currentUser.id,
+          )
+          const select = form?.querySelector<HTMLSelectElement>(
+            'select[name="userId"]',
+          )
+          if (!participants.length)
+            throw new Error('В чате нет участников для удаления')
+          if (select) {
+            select.replaceChildren(
+              ...participants.map((user) => {
+                const option = document.createElement('option')
+                option.value = String(user.id)
+                option.textContent =
+                  user.display_name || `${user.first_name} ${user.second_name}`
+                return option
+              }),
+            )
+          }
+          if (submit) submit.disabled = false
+        } catch (error) {
+          if (form)
+            this.showModalError(
+              form,
+              error instanceof Error
+                ? error.message
+                : 'Не удалось загрузить участников чата',
+            )
+        }
       } else if (action === 'open-avatar-modal') {
         this.appElement
           .querySelector<HTMLElement>('[data-avatar-modal]')
@@ -269,10 +355,15 @@ export default class AppController {
       event.target.click()
     }
     if (event.key !== 'Escape') return
+    this.closeChatMenus()
     if (this.appElement.querySelector('[data-avatar-modal]:not([hidden])'))
       this.closeAvatarModal()
     if (this.appElement.querySelector('[data-add-user-modal]:not([hidden])'))
       this.closeChatModal('add-user')
+    if (this.appElement.querySelector('[data-create-chat-modal]:not([hidden])'))
+      this.closeChatModal('create-chat')
+    if (this.appElement.querySelector('[data-remove-user-modal]:not([hidden])'))
+      this.closeChatModal('remove-user')
     if (this.appElement.querySelector('[data-delete-chat-modal]:not([hidden])'))
       this.closeChatModal('delete-chat')
   }
@@ -318,6 +409,7 @@ export default class AppController {
             firstName: user.first_name,
             lastName: user.second_name,
             phone: user.phone,
+            displayName: user.display_name ?? '',
           }),
         })
       } else if (path === EDIT_PASSWORD_PAGE_PATH) {
@@ -379,22 +471,14 @@ export default class AppController {
   }
 
   private async addUser(login: string) {
+    if (this.selectedChatId === null)
+      throw new Error('Сначала откройте групповой чат')
     const users = await UserSearchAPI.byLogin(login)
     const user = users.find(
       (item) => item.login.toLocaleLowerCase() === login.toLocaleLowerCase(),
     )
     if (!user) throw new Error('Пользователь с таким логином не найден')
-    if (!this.pendingChat || this.pendingChat.login !== login) {
-      const title =
-        user.display_name ||
-        `${user.first_name} ${user.second_name}` ||
-        user.login
-      const chat = await ChatAPI.create(title)
-      this.pendingChat = { login, chatId: chat.id }
-    }
-    await ChatAPI.addUsers(this.pendingChat.chatId, [user.id])
-    this.selectedChatId = this.pendingChat.chatId
-    this.pendingChat = null
+    await ChatAPI.addUsers(this.selectedChatId, [user.id])
     this.closeChatModal('add-user')
     await this.render(CHATS_PAGE_PATH)
   }
@@ -419,7 +503,22 @@ export default class AppController {
     }
   }
 
-  private openChatModal(kind: 'add-user' | 'delete-chat') {
+  private closeChatMenus() {
+    this.appElement
+      .querySelectorAll<HTMLElement>('[data-chat-menu]')
+      .forEach((menu) => {
+        menu.hidden = true
+      })
+    this.appElement
+      .querySelectorAll<HTMLButtonElement>('[data-action="toggle-chat-menu"]')
+      .forEach((button) => {
+        button.setAttribute('aria-expanded', 'false')
+      })
+  }
+
+  private openChatModal(
+    kind: 'add-user' | 'create-chat' | 'remove-user' | 'delete-chat',
+  ) {
     const modal = this.appElement.querySelector<HTMLElement>(
       `[data-${kind}-modal]`,
     )
@@ -433,9 +532,13 @@ export default class AppController {
     }
     if (kind === 'add-user')
       form?.querySelector<HTMLInputElement>('input[name="login"]')?.focus()
+    if (kind === 'create-chat')
+      form?.querySelector<HTMLInputElement>('input[name="title"]')?.focus()
   }
 
-  private closeChatModal(kind: 'add-user' | 'delete-chat') {
+  private closeChatModal(
+    kind: 'add-user' | 'create-chat' | 'remove-user' | 'delete-chat',
+  ) {
     const modal = this.appElement.querySelector<HTMLElement>(
       `[data-${kind}-modal]`,
     )
@@ -448,6 +551,7 @@ export default class AppController {
       error.hidden = true
     }
     if (kind === 'delete-chat' && form) delete form.dataset.chatId
+    if (kind === 'remove-user' && form) delete form.dataset.chatId
   }
 
   private closeAvatarModal() {

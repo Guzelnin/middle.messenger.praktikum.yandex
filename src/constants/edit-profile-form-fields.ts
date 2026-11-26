@@ -6,7 +6,15 @@ export const editProfileFormFields = (user: {
   firstName: string
   lastName: string
   phone: string
+  displayName: string
 }): ProfileFormField[] => [
+  {
+    id: 'display-name',
+    name: 'display_name',
+    label: 'Имя в чате',
+    type: 'text',
+    value: user.displayName,
+  },
   {
     id: 'email',
     name: 'email',

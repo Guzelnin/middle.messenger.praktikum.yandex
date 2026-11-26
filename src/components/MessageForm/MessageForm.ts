@@ -13,9 +13,9 @@ export default class MessageForm extends Block<MessageFormProps> {
       <img src="${paperClipIcon}" alt="Прикрепить файл" />
     </button>
     <label class="message-form__field">
-      <textarea class="message-form__textarea" name="message" rows="2" required></textarea>
+    <textarea class="message-form__textarea" name="message" rows="3"></textarea>
     </label>
-    <button class="message-form__send" type="submit" aria-label="Отправить сообщение">
+    <button class="message-form__send" type="submit" aria-label="Отправить сообщение" disabled>
       <img src="${sendIcon}" alt="Отправить сообщение" />
     </button>
   </form>`

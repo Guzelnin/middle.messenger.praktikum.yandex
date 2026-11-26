@@ -56,8 +56,6 @@ function validateField(
 
   if (requiredOnly) {
     if (isEmpty && field.required) error = 'Заполните это поле'
-  } else if (name === 'message') {
-    if (!trimmedValue) error = 'Сообщение не должно быть пустым'
   } else if (isEmpty) {
     if (field.required) error = 'Заполните это поле'
   } else if (name === 'password-check' || name === 'password_check') {

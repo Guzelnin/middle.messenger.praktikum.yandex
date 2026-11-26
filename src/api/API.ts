@@ -44,6 +44,8 @@ export const ChatAPI = {
   users: (chatId: number) => api.get<User[]>(`/chats/${chatId}/users`),
   addUsers: (chatId: number, users: number[]) =>
     api.put<void>('/chats/users', { chatId, users }),
+  removeUsers: (chatId: number, users: number[]) =>
+    api.delete<void>('/chats/users', { chatId, users }),
   delete: (chatId: number) => api.delete<void>('/chats', { chatId }),
 }
 
