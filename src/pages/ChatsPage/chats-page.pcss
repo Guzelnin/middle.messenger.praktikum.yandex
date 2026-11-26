@@ -71,6 +71,12 @@
   text-decoration: none;
 }
 
+.sidebar__create-chat {
+  flex-shrink: 0;
+  height: 40px;
+  margin: 0 12px 12px;
+}
+
 .chats {
   flex: 1;
   min-height: 0;
@@ -82,7 +88,7 @@
 
 .chat {
   display: grid;
-  grid-template-rows: 72px minmax(0, 1fr) 72px;
+  grid-template-rows: 72px minmax(0, 1fr) auto;
   min-height: 0;
   min-width: 0;
   border-left: 1px solid var(--color-border);
@@ -99,6 +105,101 @@
   color: var(--color-text-secondary);
   font-size: 14px;
   text-align: center;
+}
+
+.chat-modal[hidden] {
+  display: none;
+}
+
+.chat-modal {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  display: grid;
+  padding: 20px;
+  place-items: center;
+  background: rgb(0 0 0 / 45%);
+}
+
+.chat-modal__dialog {
+  position: relative;
+  display: flex;
+  width: min(100%, 380px);
+  padding: 32px 24px 24px;
+  box-sizing: border-box;
+  flex-direction: column;
+  gap: 16px;
+  border-radius: 12px;
+  background: var(--color-surface);
+  box-shadow: 0 12px 40px rgb(0 0 0 / 20%);
+}
+
+.chat-modal__close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.chat-modal__title {
+  margin: 0 20px 4px;
+  color: var(--color-text);
+  font-size: 19px;
+  text-align: center;
+}
+
+.chat-modal__label {
+  color: var(--color-text-secondary);
+  font-size: 13px;
+}
+
+.chat-modal__error {
+  margin: 0;
+  color: var(--color-error);
+  font-size: 13px;
+  line-height: 18px;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+.chat__menu-wrap {
+  position: relative;
+}
+
+.chat__menu[hidden] {
+  display: none;
+}
+
+.chat__menu {
+  position: absolute;
+  z-index: 2;
+  top: calc(100% + 4px);
+  right: 0;
+  min-width: 180px;
+  padding: 6px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  box-shadow: 0 6px 20px rgb(0 0 0 / 12%);
+}
+
+.chat__menu button {
+  width: 100%;
+  padding: 9px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.chat__menu button:hover {
+  background: var(--color-background);
 }
 
 .chat__messages {
@@ -141,4 +242,16 @@
   color: var(--color-text-secondary);
   font-size: 11px;
   text-align: right;
+}
+
+@media (width <= 760px) {
+  .page-index {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .chats-page {
+    grid-template-columns: minmax(220px, 40%) 1fr;
+  }
 }
